@@ -22,18 +22,18 @@ chartmuseum:
       ingress.kubernetes.io/ssl-redirect: "false"
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
     hosts:
-    - name: cm.192.168.99.100.nip.io # Change me!
+    - name: cm.192.168.99.100.nip.io
       path: /  
 
 jenkins:
   master:
-    imageTag: "2.129-alpine"
+    imageTag: "2.151-alpine"
     cpu: "500m"
     memory: "500Mi"
     serviceType: ClusterIP
     serviceAnnotations:
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-    GlobalLibraries: true
+    globalLibraries: true
     installPlugins:
     - durable-task:1.22
     - workflow-durable-task-step:2.19
@@ -58,6 +58,7 @@ jenkins:
     - google-compute-engine:1.0.4
     - pegdown-formatter:1.3
     ingress:
+      enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
         nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -66,10 +67,14 @@ jenkins:
         ingress.kubernetes.io/ssl-redirect: "false"
         ingress.kubernetes.io/proxy-body-size: 50m
         ingress.kubernetes.io/proxy-request-buffering: "off"
-      hostName: jenkins.192.168.99.100.nip.io # Change me!
-    CustomConfigMap: true
-    CredentialsXmlSecret: jenkins-credentials
-    SecretsFilesSecret: jenkins-secrets
+      hostName: jenkins.192.168.99.100.nip.io
+    customConfigMap: true
+    credentialsXmlSecret: jenkins-credentials
+    secretsFilesSecret: jenkins-secrets
     DockerVM: false
   rbac:
-    install: true
+    create: true
+
+go-demo-5:
+  ingress:
+    host: go-demo-5.192.168.99.100.nip.io
